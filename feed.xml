@@ -1,0 +1,651 @@
+
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<channel>
+  <title>Wsine's Blog</title>
+  <atom:link href="https://wsine.github.io/blog/feed.xml" rel="self" type="application/rss+xml" />
+  <link>https://wsine.github.io/blog</link>
+  <description>To be simple, to be powerful.</description>
+   
+  <item>
+    <title><![CDATA[给你的静态博客带来 RSS 订阅]]></title>
+    <link>https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2f%e7%bb%99%e4%bd%a0%e7%9a%84%e9%9d%99%e6%80%81%e5%8d%9a%e5%ae%a2%e5%b8%a6%e6%9d%a5RSS%e8%ae%a2%e9%98%85</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2f%e7%bb%99%e4%bd%a0%e7%9a%84%e9%9d%99%e6%80%81%e5%8d%9a%e5%ae%a2%e5%b8%a6%e6%9d%a5RSS%e8%ae%a2%e9%98%85</guid>
+    <description><![CDATA[<h1 id="给你的静态博客带来-rss-订阅">给你的静态博客带来 RSS 订阅</h1>
+<p>最近对于千篇一律的科技新闻，感到了一丝的阅读疲倦。因此，想要寻找一些有有趣的灵魂或者独立思考的博文，打发平时无聊的摸鱼时光。但是，随着在互联网上探索有意思的博客，发现绝大部分都没有提供相关的订阅链接，这将很难追踪新博客的发布。这其中，相当一部分博客是通过静态方式发布博客的。</p>
+<p>因此，本文的内容就是通过我的实践展示一下如何给静态博客增加 RSS 订阅。</p>
+<h2 id="什么是-rss">什么是 RSS</h2>
+<p>首先我们来看一下维基百科上面对 RSS 的定义：</p>
+<blockquote>
+<p><strong>RSS</strong>（全称：<a href="https://zh.wikipedia.org/wiki/Resource_Description_Framework">RDF</a> Site Summary；Really Simple Syndication），中文译作<strong>简易信息聚合</strong>，也称<strong>聚合内容</strong>，是一种<a href="https://zh.wikipedia.org/wiki/消息來源">消息来源</a>格式规范，用以<strong>聚合经常发布更新资料的网站</strong>，例如<a href="https://zh.wikipedia.org/wiki/部落格">博客</a>文章、新闻、<a href="https://zh.wikipedia.org/wiki/音訊">音频</a>或<a href="https://zh.wikipedia.org/wiki/視訊">视频</a>的网摘。RSS文件（或称做摘要、网络摘要、或频更新，提供到频道）包含全文或是节录的文字，再加上发布者所订阅之网摘资料和授权的元数据。简单来说 RSS 能够让用户订阅个人网站个人博客，当订阅的网站有新文章是能够获得通知。</p>
+</blockquote>
+<p>仔细阅读第二个英文全称，它表达的是 RSS 是一个十分简单的聚合技术，最主要的目的就是给个人网站和博客提供信息聚合，并通知所有订阅的阅读者，使信息能够更高效的传播。这正是我们想要的目的。</p>
+<h2 id="rss-的格式">RSS 的格式</h2>
+<p>RSS 的本质其实很简单，只是一份定制化的 XML 文件，我们先来看看该文件的基础定义。这份定义参考自 <a href="https://www.rssboard.org/rss-specification">RSSBoard</a> 网站对于 RSS 2.0 版本的定义所提供的最简单的版本。</p>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;rss</span><span class="ot"> xmlns:atom=</span><span class="st">&quot;http://www.w3.org/2005/Atom&quot;</span><span class="ot"> version=</span><span class="st">&quot;2.0&quot;</span><span class="kw">&gt;</span>
+<span class="kw">&lt;channel&gt;</span>
+  <span class="kw">&lt;title&gt;</span>blog_title<span class="kw">&lt;/title&gt;</span>
+  <span class="kw">&lt;atom:link</span><span class="ot"> href=</span><span class="st">&quot;blog_link&quot;</span><span class="ot"> rel=</span><span class="st">&quot;self&quot;</span><span class="ot"> type=</span><span class="st">&quot;application/rss+xml&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;link&gt;</span>blog_link<span class="kw">&lt;/link&gt;</span>
+  <span class="kw">&lt;description&gt;</span>xxx<span class="kw">&lt;/description&gt;</span>
+  <span class="kw">&lt;item&gt;</span>
+    <span class="kw">&lt;title&gt;</span><span class="bn">&lt;![CDATA[</span>article_title<span class="bn">]]&gt;</span><span class="kw">&lt;/title&gt;</span>
+    <span class="kw">&lt;link&gt;</span>article_link<span class="kw">&lt;/link&gt;</span>
+    <span class="kw">&lt;guid</span><span class="ot"> isPermaLink=</span><span class="st">&quot;false&quot;</span><span class="kw">&gt;</span>article_id<span class="kw">&lt;/guid&gt;</span>
+    <span class="kw">&lt;description&gt;</span><span class="bn">&lt;![CDATA[</span>article_content<span class="bn">]]&gt;</span><span class="kw">&lt;/description&gt;</span>
+    <span class="kw">&lt;pubDate&gt;</span>article_date<span class="kw">&lt;/pubDate&gt;</span>
+  <span class="kw">&lt;/item&gt;</span>
+<span class="kw">&lt;/channel&gt;</span>
+<span class="kw">&lt;/rss&gt;</span></code></pre></div>
+<p>可以看到，这份 XML 文件十分简单，仅包括对于需要阅读的内容的基础信息，并没有增加其他复杂的信息。其中比较特殊的可能是 <code>guid</code> 这个标签，它提供对于文章的唯一标识，但由于文章的超链接也是唯一的，因此可以把超链接作为 GUID 的标识。</p>
+<h2 id="如何生成-rss">如何生成 RSS</h2>
+<p>由于需要根据文章内容动态生成该XML文件，因此一般的静态博客没有动态处理的能力，所以提供不了这种功能。但是，现代化的静态服务平台都提供了 Continuous Integration (CI) 的功能，我们可以利用该功能为我们的博客自动化提供该XML文件。</p>
+<p>实现的思路总体来说就4步：获取最新的文章，根据内容拼接字符串，输出生成内容到 XML 文件，发布 RSS。</p>
+<p>下面，我会以自身为例，在 Github 平台上通过 Travis CI 服务，自动化生成 RSS 文件所应该关注的点进行说明。</p>
+<p><strong>获取最新的文章</strong></p>
+<p>首先我们会遇到第一个问题，该 XML 文件中到底需要包含多少篇文章才算是最新的文章。在这里，我的建议是 10 篇。考虑到个人博客的属性，我们的更新频率不会特别高，10篇文章足以达到人们通常阅读的频率。以 Git 协议管理的时间作为文章的发布时间，是一个不错的选项。</p>
+<p>第二个问题是，RSS 如何知道我哪篇文章是新的？这里就需要严格控制文章的生成的 <code>pubDate</code>标签。在 RSS 2.0 的协议规范里面，规定了该时间的时间戳使用的是 <a href="http://asg.web.cmu.edu/rfc/rfc822.html">RFC 822</a> 的规范。否则，该订阅源在阅读器中会出现混乱的排序情况，尤其注意。Git 命令中提供了 format 选项 “%aD” 可以获取该规范下的时间戳。</p>
+<p><strong>根据内容拼接字符串</strong></p>
+<p>这里有两个标签需要特别注意一下的。</p>
+<p>其一是<code>link</code>标签。由于部分人的文件是以中文命名的，这在RSS中并不能直接访问到正确的内容。正确的做法是自行将 URL 手动 encode 成标准的 unicode 编码，可以仅对中文部分处理，也可以对整个 URL 进行编码。一般来说，仅对中文部分处理会使最终生成的 URL 相对好看一些。</p>
+<p>另一是 <code>description</code> 标签。由于大部分人现在都是使用 Markdown 语言来写博客，而 markdown 的纯文本并不适合直接阅读，而目前的 RSS 阅读器并不支持渲染 Markdown 语言。我们更希望将它进行解析到 Html 语言，以便后续能够更好的渲染成优秀排版。这里，我们使用万能的瑞士军刀 <code>Pandoc</code> 软件即可解析。</p>
+<p>但是，由于 Html 语言和 Xml 的语言都是属于标记型语言，混合在一起容易产生歧义解析。因此需要使用 <code>&lt;![CDATA[  html_content  ]]&gt;</code> 逃逸字符来控制 html 内容不属于 xml 的一部分。</p>
+<p><strong>输出生成内容到 XML 文件</strong></p>
+<p>通过不同的编程语言控制文件输出到 XML 这不难。根据自己选择的编程语言生成即可。</p>
+<p>这里，我建议大家对生成的 XML 进行校验，确保生成的 RSS 是正确并能够解析的。W3C 联盟提供了标准的 RSS 文件校验服务：https://validator.w3.org/feed/，可以在线输入和链接校验两种方式。</p>
+<p><strong>发布 RSS</strong></p>
+<p>对于静态博客，最直接的方法是将 XML 文件推送到静态服务平台，然后以 RAW 格式访问，即为一个合格的 RSS 订阅链接。</p>
+<p>更进阶一步的方法，可以利用前端框架里面的静态路由方式，解析通用的 <code>/feed</code> 路由到生成的 RSS 文件中，配合标准的图标 <img src="https://www.rssboard.org/images/rss-icon.png" alt="rss icon" />，能够让人清晰直观的发现该博客提供了 RSS 订阅链接。</p>
+<h2 id="后记">后记</h2>
+<p>上述的说明只描述了我认为在这个方案中需要注意的事项，隐去了每一步的操作细节。想要抄作业的各位同学，可以移步到 https://github.com/Wsine/blog/blob/master/build.sh 查看具体的实现方法，直接复制到自己的仓库中就可以使用。</p>
+<p>具体的展示可以查看我的博客看看具体效果：https://wsine.github.io/blog <a href="https://wsine.github.io/blog/feed.xml"><img src="https://www.rssboard.org/images/rss-icon.png" alt="rss icon" /></a>，也欢迎订阅~</p>
+<p>在这里，我也呼吁大家为自己的博客增加 RSS 订阅链接，如想分享可以在评论区留下你的订阅链接~</p>]]></description>
+    <pubDate>Mon, 24 Aug 2020 13:59:51 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[Wsine's Blog]]></title>
+    <link>https://wsine.github.io/blog/#/README</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/README</guid>
+    <description><![CDATA[<h1 id="wsines-blog">Wsine's Blog</h1>
+<p><a href="https://travis-ci.com/Wsine/blog"><img src="https://travis-ci.com/Wsine/blog.svg?branch=master" alt="Build Status" /></a> <a href="/blog/feed.xml" title=":ignore"><img src="https://img.shields.io/badge/RSS-Atom-orange" alt="RSS_icon" /></a></p>
+<p>强烈建议安装Consolas字体，大大提高博客的浏览效果，相信你也会喜欢这款字体</p>
+<p>博客内容大多为我一路以来的学习历程的记录，主要都是写一些相关内容的实现，需要一定的理论知识支撑，博客不会详细讲解为什么</p>
+<p>内容均为原创，其中有参考一些身边或网上大神的做法 一般都有写明出处，如果遗漏的地方，请在评论中指出</p>
+<p>由于自己学得不精，如有错漏的地方，请加以自己思考消化，不要盲目照搬，也可以在评论中指出错漏</p>
+<p>最后，如果给您带来了什么不便可以后台发短消息或者发邮件给我，我可以把相关博客隐藏可见</p>
+<p>希望引用的博友可以注明出处，互相学习，谢谢</p>]]></description>
+    <pubDate>Wed, 5 Aug 2020 20:37:23 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[从 iOS 13 到 ColorOS 6 的用户体验]]></title>
+    <link>https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2f%e4%bb%8eiOS13%e5%88%b0ColorOS6%e7%9a%84%e7%94%a8%e6%88%b7%e4%bd%93%e9%aa%8c</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2f%e4%bb%8eiOS13%e5%88%b0ColorOS6%e7%9a%84%e7%94%a8%e6%88%b7%e4%bd%93%e9%aa%8c</guid>
+    <description><![CDATA[<h1 id="从-ios-13-到-coloros-6-的用户体验">从 iOS 13 到 ColorOS 6 的用户体验</h1>
+<p>[TOC]</p>
+<h2 id="前言">前言</h2>
+<p>2020年到了，国内厂商不断迭代进化的安卓手机用户体验到底如何呢？抱着这个疑问，我也十分好奇。适逢单卡手机不太适合我的现状，且最近双11、双12都没怎么买买买，手痒痒之下决定换到 Android 平台体验一下。不过最近适逢 5G 快速普及的时代，我也曾十分纠结买哪一款手机比较好，也写下了如下小杂文，记录了我的思考过程。</p>
+<p>关联阅读：<a href="https://sspai.com/post/58193">2019年末是选购手机最难的时刻</a></p>
+<p>由于最近在少数派平台看到大量 ColorOS 相关推广，抱着尝鲜的心态，购入了 OPPO Reno Ace。在我购买之时，鲜有文章或视频详细介绍系统之间的差异，所以今天就打算来就着新手机快一个月的主力机体验来好好聊一聊这个话题。</p>
+<p>本想着描述这个话题为《从 iOS 到 Android 的用户体验》，后来发现在安卓阵营之间也有不少的鸿沟，哪怕是同一个厂商的不同机型，所以这个更细致地描述这个话题，以免争议。</p>
+<p><strong>一些条件</strong></p>
+<p>虽然我也是一个 CS 背景的从业人员，也曾是手机的发烧玩家。但是随着年龄的增长，也折腾不动了。本文也只会从普通消费者的角度，去主观地给大家说说我感受到的用户体验，文章不会涉及任何的刷机行为等操作。由于所在地区不同，本文的体验不会考虑网络因素的限制。</p>
+<p>下面就开始来说说我的体验吧。</p>
+<h2 id="软件细节的放大镜">软件细节的放大镜</h2>
+<p>在平时的玩手机的时候，也特别关注一些细节的地方，我觉得这个特别能体现工匠精神，也是我很喜欢的地方。</p>
+<h3 id="缺失的基础账号同步服务">缺失的基础账号同步服务</h3>
+<p>拿到新手机的第一时间，我猜大部分的人的第一步操作都是想着如何把旧手机的资料导入到新手机里面。但是，由于我所有的数据都在云端，我更需要做的是如何从云端导入数据到新手机里。</p>
+<p>在 iOS 平台，你可以登陆微软账号，借助 Exchange 服务，你可以快速地同步你的通讯录、记事本、待办列表和日历事件。哪怕在一个相对封闭的苹果生态里，Apple 也不至于封杀所有的开放协议，将用户锁定在这个平台。</p>
+<p>可是，在 ColorOS 6 中，我找不到同等的设置。在 Android 平台上，一般情况下是通过 设置 - 账户 选项卡来添加一个 <code>Microsoft Exchange ActiveSync</code> 服务来添加同样的事情的。但是，在 ColorOS 6 中，连一个普通的邮箱 app 也没有，我怀疑系统顺便把这个同步设置也砍掉了。这让我很痛苦。</p>
+<p>诚然，邮箱 App 的缺失可以通过下载第三方来解决，但我认为这不属于一个一线大厂可以省略的事情。虽然，我现在找到了不少方法去 work around，但是这些操作都是反直觉的。你能想象你需要打电话给某个联系人的时候不是打开联系人而是打开一个叫 Outlook 的 App 再多层跳转吗？更不必说，少了这套对日常的 GTD 管理产生了不少的困扰。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/7B28716735306A1B4CD64ED46BD5FA6E.PNG" alt="1" />
+<p class="caption">1</p>
+</div>
+<h3 id="依旧糟糕的权限管理">依旧糟糕的权限管理</h3>
+<p>在购买手机之前，我也曾打听安卓系统现在的权限管理到底怎么样了？朋友跟我说，比以前进步很大了，能单独设置不同的权限，也不至于不给权限就完全不能用。我的实际体验又如何呢？</p>
+<p><strong>烦人的权限阻止</strong>：事实上，你也确实可以不给一些非必要的权限，比如支付宝HK，希望读取手机状态，读取位置信息。你可以选择不给，但是每一次打开 App，它都会好心提醒你一次 For your security 希望你授权以上权限。难道出卖我的权限能让我更安全吗？</p>
+<p>同样的，每一次系统帮忙阻止了 App 索取某一项权限，它也会好心地弹小窗告诉用户它帮你阻止了，可是你吵到我看屏幕了好吗？后来，我知道了在 Phone Manager App 中可以取消这个 Toast，但是，为什么不是在 Settings 中？我本来不想打开任何的鸡肋系统 App 以及授予任何权限的，你让我破戒了。</p>
+<p><strong>摸不着头脑的 Storage 权限：</strong>绝大部分的 App 都申请权限访问存储权限，理由有很多缓存需要，下载需要等。不给这个权限就不让用了: ( 可是，为什么有部分 App 就可以不需要该权限就能正常使用呢？我知道的，Android 没有相册权限，授予了 Storage 权限也等同于授予了整个相册可读了。</p>
+<p><strong>无效的不再打扰：</strong>当你想阻止某些权限的时候，可以直接选择 Cancel 且勾选 Don't ask again。但是，不是每一次这个选项都有效的。比如，Bose Connect 这个 App，每当我连接蓝牙的时候，都有弹窗显示希望授权 Contacts 权限，无论你上一次是否让它 Don't ask again。我看过的，Bose Connect 的索取权限列表并没有 Contacts，可能是系统嫁祸你索取的这个权限，也有可能是一个你是一个假的乖宝宝。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/A971B421F2D21462D9475CBA97A97BE5.PNG" alt="1" />
+<p class="caption">1</p>
+</div>
+<p>但是，总的来说，安卓手机在权限管理这一块给了我很大的改观，进步非常明显，甚至高于我的预期。授权的方式细化了很多，优质的 App 们也不再过多地索取权限了，各司其职其乐融融相处地还算是挺愉快的。不过呢，再吐槽一句，为什么 OPPO+ App 默认有全部权限~ : )</p>
+<h3 id="严重不足的小红点">严重不足的小红点</h3>
+<h4 id="通知数量的小红点">通知数量的小红点</h4>
+<p>不知道人类（OPPO 产品经理们）是否被曾经的满屏幕的小红点恐惧所笼罩，在 ColorOS 6 中的小红点功能分为了三级，分别为“Don't Show Badge”、“Dot Badge”、“Number Badge”。但是呢，不是所有的 App 都有资格拥有这三级程度通知的，也不是所有的 App 都对这三级设置有效的，而且我至今搞不懂它们的分类。</p>
+<p>我理解至少应有有数字权限的软件：</p>
+<ul>
+<li>Wechat：老大哥，拥有 Number Badge 权限</li>
+<li>WhatsApp：二哥，拥有 Number Badge 权限</li>
+<li>Messenger：三哥，拥有 Number Badge 权限</li>
+<li>Telegram：小弟1号，不配拥有 Number Badge 权限</li>
+<li>Gmail：小弟2号，不配拥有 Number Badge 权限</li>
+<li>Outlook：小弟3号，不配拥有 Number Badge 权限</li>
+<li>陌生人社交应用们：更加不配拥有 Number Badge 权限</li>
+</ul>
+<p>我真的不能够理解，对于开放的安卓系统，一视同仁给用户自由的选择权力不好吗？上述这些举例里面，缺失了的通知数量的功能，给我增加了不少的麻烦，不是特别重要的软件还好，邮箱 App 的缺失是最难受的，越是重要的事情越是通过正式邮件发送的。尤其是，课程调整、社会安全、会议邀请等事宜。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/69A31389A0C9C44B3855262324C1552E.PNG" alt="1" />
+<p class="caption">1</p>
+</div>
+<h4 id="低效或无效的小红点">低效或无效的小红点</h4>
+<p>何谓低效？在 ColorOS 6 系统中的 Dot Badge 功能，并不是以【小红点】的形式提醒你有新通知的，而是通过当前 App 的图标颜色均值通知你的。颜色的基调更偏向于图标底色，而且圆点的大小和图标的大小比例悬殊，在这样的情况下其实没有办法起到有效的通知作用。</p>
+<p>何谓无效？在 Gmail 和 Outlook 中，Dot Badge 功能直接失效，哪怕功能是开启的。缺少数字通知已经让我很难受了，连最后的小圆点通知也没有了，真的不合适。如果我没有主动轮询通知中心，我是不会知道有新邮件到来的。</p>
+<h4 id="软件更新的小红点">软件更新的小红点</h4>
+<p>准确的来说，这个也不是【小红点】，而是【小蓝点】。我习惯性打开应用商场软件自动更新，但一个软件更新了之后提醒用户，真的这么重要吗？我没有办法关掉桌面的小蓝点，这只是在变相地让我回归“满屏幕的小红点的恐惧”。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/C02FC48070A685A71838C0DDB7F6D097.PNG" alt="1" />
+<p class="caption">1</p>
+</div>
+<h3 id="breeno-要你何用">Breeno 要你何用</h3>
+<h4 id="breeno-space">Breeno Space</h4>
+<p>一个底部快捷方式，通过同时短按 电源键和音量加 来触发。在我购入机器的第一天我试用了这功能，触发没有问题；但是一个月后的今天，只剩下我在冰冷的风中摁了好多遍，也没有反应。</p>
+<h4 id="breeno-voice">Breeno Voice</h4>
+<p>小布小布你在哪里？但我还在用 iOS 的时候，我常用的比较多的一个功能就是当我找不到手机的时候，高呼一声 “Hey Siri” 它能有所反应。但是，哪怕面对面喊 “小布小布”，成功率也不到 1/3，同样的情况也出现在我家人的 “小爱同学” 上面。我不太清楚安卓旗舰里是否有协处理器的存在，还是以小核心配合时钟替代了协处理器，无论是抬腕唤醒，双击屏幕亮屏抑或是语音助手，在这个手机上的表现都太奇怪了。</p>
+<h4 id="breeno-feed">Breeno Feed</h4>
+<p>俗称，负一屏，是 ColorOS 智慧场景识别中的主打功能。首先，这个负一屏无法关掉，你可以选择不启用，但是没有办法让屏幕不存在负一屏。在我长期往来深港的过程，汇率换算、当地实用信息、跨境服务、旅游服务，一个也没有触发。反倒是通过热更新，帮助我将支付宝集五福的功能集成到负一屏中，可是你有问过我需要吗？还好，它可以关闭。</p>
+<p>其他的 Breeno 功能，我不太敢用或没有需求，没有深度体验，就不评价了。有很多功能不断丰富着人们的场景，是一件好事情，也期望下一个版本能打磨更好一些吧。</p>
+<h3 id="图库管理逻辑成谜">图库管理逻辑成谜</h3>
+<p>我还是没有办法搞懂图库的逻辑，先说明我从未打开过任何文件管理 App。首先从 Photos 栏目并不是显示所有图片的，比如我从 App 中下载了一张图，它会存在于 图库/Albums/App 里面，但是如果我需要从微信扫码或分享该张照片，我并不能快速找到它，因为它似乎需要一会儿才会被微信的图库管理给索引到。但是呢，某些 App 中非主动下载的图片，却有可能出现在 Photos 栏目中。</p>
+<p>重复出现的图片问题也比较困扰我，写文章的拍照图片在我图库里出现了两重备份。截图功能没有主动保存功能，但我触发截图时往往需要编辑区域和加标注等，但是编辑完没有保存功能，返回就是保存=。=，我多害怕辛苦编辑的图片丢失重来。同时，它还造成了原截图和二次编辑截图在图库中各存一份。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/A03F176BCF4F8184754E7865AC045659.PNG" alt="1" />
+<p class="caption">1</p>
+</div>
+<h3 id="其他的一些杂项">其他的一些杂项</h3>
+<p>一些比较小的事项，我就在这里简单说一下吧，通过 + 代表我得到了一些正面的体验，- 代表我失去了一些体验，但这些都是在我预期之中的。</p>
+<p>+可更换的桌面主题（收费）</p>
+<p>+应用跳转基本正常</p>
+<p>+两种单手模式（全局+键盘）</p>
+<p>+全功能NFC</p>
+<p>+系统级美颜（在第三方 App）</p>
+<p>-全局的第三方密码管理接口</p>
+<p>-相机的4800万像素需要每次手动开启</p>
+<p>-桌面下拉全局搜索（无法关闭+广告）</p>
+<p>-微小的逻辑交互混乱（下拉-&gt;右侧弹出）</p>
+<p>-系统支持的VPN协议太少（通过 App 弥补）</p>
+<p>-失去灵性的屏幕自动调节</p>
+<p>-关键的优质小应用</p>
+<p>-应用内提示新版本（应用的逻辑问题）</p>
+<h2 id="硬件加持的黑魔法">硬件加持的黑魔法</h2>
+<p>得益于硬件的加持，这台安卓手机有着惊喜般的黑魔法体验，虽然也是一些老生详谈。</p>
+<h3 id="hz-刷新率">90Hz 刷新率</h3>
+<p>有些人认为，高刷新率只有在快速滚动屏幕的时候才有对比。从我的个人主观感受来说，不是这样的。我日常也只是慢慢浏览 RSS 文章。从 60 Hz 到 90 Hz，它没有给我任何的惊喜，真的只有在快速滚动时才能感受到。但是从 90 Hz 用回 60 Hz，它给我的感受是一时无法适应的&quot;卡慢&quot;。这种感觉，就像是我第一次长时间佩戴降噪耳机在人群中摘下来一样的强烈。</p>
+<h3 id="mah-65w-的快充">4000 mAh + 65W 的快充</h3>
+<p>我更愿意将这两个放在一起讲。先举一个日常的场景，跟朋友两个人去香港逛吃逛吃买买买的场景下，大量依赖地图导航+美食评价+代购沟通软件，一整天下来我出门 100% 的电量回家是 51% 的电量。它对于我每一天的日常情况下是富足有余的。</p>
+<p>作为目前手机阵营最快的充电速度，半小时完全充满电会比其他 18~22W快充 有更好的体验吗？还真的有。生活中，我们往往想起来需要充电时是出门前的10分钟，而往往你也有可以动态调节稍微再晚10分钟出门的可能性，配合不一定非要充满就能满足一整天的实际情况，它能给你带来莫大的安全感。</p>
+<p>所以，从我的视角来看，4000 mAh 配合 40W+ 的充电速度，是一个在生活中相对灵活的电充比组合。当然，这也要系统和软件配合不那么耗电才行。而这个组合，能让你在更多的实际场景中得到比较好的体验。</p>
+<h2 id="后记">后记</h2>
+<p>那么，最后我该给出怎样的综合体验评论呢？说实话，我也很纠结。</p>
+<p>但是，如果硬要有一个结论，我的结论是，我依然要放弃 Android 回到 iOS 的阵营。生产力和生产效率是我对手机的第一要求，我认为它不可用金钱来衡量。</p>
+<p>最后，感谢大家的阅读，不同的手机系统都有其合适的用户群，存在即合理。</p>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[Microsoft Terminal 颜值在线的终端模拟器]]></title>
+    <link>https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2fMicrosoft_Terminal%e9%a2%9c%e5%80%bc%e5%9c%a8%e7%ba%bf%e7%9a%84%e7%bb%88%e7%ab%af%e6%a8%a1%e6%8b%9f%e5%99%a8</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2fMicrosoft_Terminal%e9%a2%9c%e5%80%bc%e5%9c%a8%e7%ba%bf%e7%9a%84%e7%bb%88%e7%ab%af%e6%a8%a1%e6%8b%9f%e5%99%a8</guid>
+    <description><![CDATA[<h1 id="microsoft-terminal-颜值在线的终端模拟器">Microsoft Terminal 颜值在线的终端模拟器</h1>
+<p>在 Microsoft Build 2019 的大会上，微软给我们带来了一款全新设计的终端模拟器 Microsoft Terminal. 虽然过度好看的宣传片和实际的效果有着巨大的落差，但是也不影响它在 Windows 阵营里取得最高的颜值称号。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/1746B559BC9685F1E4D9BFFF9F5F9EAC.png" alt="terminal" />
+<p class="caption">terminal</p>
+</div>
+<p>从 Preview v0.2 版本开始我就试用了这款工具，到今天的 Preview v0.6 版本最后关键的问题修复后我才想说来跟大家分享一下这个工具。</p>
+<h2 id="安装-terminal">安装 Terminal</h2>
+<p>Microsoft Terminal （下称 Terminal） 明确要求了系统版本至少需要 “Windows 10 version 18362” 或以上才能使用。</p>
+<p>而现在的安装方法也很简单，从 Microsoft Store 里面搜索 “Microsoft Terminal” 就可以直接安装和卸载了。</p>
+<p>但是到目前为止，Terminal 还是处于一个 Preview 的阶段，功能上来说不会囊括所有的用户的期望，如果想要有自己期望的功能，可以在官方的开源仓库的 <a href="https://github.com/microsoft/terminal/issues">Github issue</a> 上发 Feature Request 哟~</p>
+<h2 id="全新配置管理方式">全新配置管理方式</h2>
+<p>Terminal 采用了 JSON 文件作为它的配置文件，这就意味着你可以将整个配置文件备份，然后在别的地方下载下来快速使用，十分的方便。</p>
+<p>实际使我眼前一亮的点是，当我用 Sublime 修改该配置文件保存的时候，已经打开了的 Terminal 的样式能实时发生改变，这大大提高了用户调整配置的便捷程度，而很多工具要做到这点都是将设置界面做成软件的一部分才能实现的，这点给 Terminal 大大的加分。</p>
+<p>由于是 JSON 纯文本配置文件，总是有可能出现手抖或者配置出错的问题，这时候保存配置文件会被提示文件哪里的配置有问题，而该次的保存不会生效，实际调试样式还是十分方便的。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/52104FB432B5BCF495FA7E7C056DBA6C.gif" alt="vim" />
+<p class="caption">vim</p>
+</div>
+<h2 id="less-is-more-的配置项">Less is More 的配置项</h2>
+<p>Terminal 提供的配置项不多，但我觉得 98% 的人也只需要修改到这些配置项就足够了，下面来跟大家陈列一下它提供的配置项吧（我只挑重点的来展示）：</p>
+<ul>
+<li>defaultProfile：默认启动的方案，可以为 CMD，PowerShell，Azure 等</li>
+<li>keybindings：快捷键映射</li>
+<li>acrylic：透明度</li>
+<li>background：背景颜色或者背景图片 <del>动漫女神</del></li>
+<li>colorScheme：配色方案，可以自定义配色</li>
+<li>commandline：默认启动的程序，一般为 cmd.exe 等</li>
+<li>cursorColor：光标颜色</li>
+<li>cursorShape：光标形状</li>
+<li>fontFace：字体方案</li>
+<li>fontSize：字体大小</li>
+<li>icon：该方案的代表图标</li>
+<li>name：该方案的名称</li>
+<li>padding：外边距</li>
+<li>historySize：保留的历史输出大小</li>
+</ul>
+<p>一般情况下，当你调整好了显示的字体和大小，调整背景和透明度，还有配色方案，基本上就把一个终端模拟器的外观给定义好了。</p>
+<p>由于是 JSON 配置文件，文件里面也不能像以前的方式一样给出选项，微软将一份配置文件说明放在了仓库中 =&gt; <a href="https://github.com/microsoft/terminal/blob/master/doc/cascadia/SettingsSchema.md">Settings Schema</a> . 但是却没有在配置文件里面提供链接，我觉得这点还是需要改进的。</p>
+<h2 id="功能的最后一块拼图">功能的最后一块拼图</h2>
+<p>谈及终端模拟器，一般情况下我会从一些特定的功能去考察它是否功能完备，以及它的加分点有哪些</p>
+<h3 id="gpu加速">GPU加速</h3>
+<p>这个就属于新时代的终端模拟器的代表功能了，之前在 Manjaro 下面使用 Alacritty 终端模拟器时才体会到在GPU加速的这一功能。在大量的文本打印的时候，得益于GPU的加速，丝毫没有那种播放PPT的卡顿感，这个对于长时间在终端下工作的我来说还是十分舒服的。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/CC87571D29A2461C0502CF5A3C9268A9.gif" alt="vim" />
+<p class="caption">vim</p>
+</div>
+<h3 id="多标签">多标签</h3>
+<p>诚然，很多的终端模拟器都自带了多标签，比如 xshell，mobaxterm 和 cmder 等。前两者在工作用途上是收费的，后者总是占用了太多的 Linux 快捷键。之前我不得不使用 CMD 代替它们（发现意外的好用），现在 Terminal 来将 CMD 缺失的多标签功能给补齐了。</p>
+<h3 id="emoji支持">Emoji支持</h3>
+<p>虽然微软平台的Emoji真的很丑，但是有总比没有好不是嘛，我还是很喜欢在Git commit里面加点emoji让它好看一点的。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/E56D8ABFB6EA3F8AF3782EC3B0DBFF0B.png" alt="vim" />
+<p class="caption">vim</p>
+</div>
+<h3 id="ncurses的支持">NCURSES的支持</h3>
+<p>对于重度使用终端的人来说，基本上离不开两个重要的工具，文本编辑器（Vim / Emacs）和终端复用器（Tmux / Screen）。而它们的底层，其实都是由 ncurses 来提供支持的。这个库可以让你的终端除了不断打印出新的东西，还能后退擦除一些东西，从而造成屏幕不断刷新的效果。</p>
+<p>通过我两周以来的实际体验，在我的日常使用中完全没有问题，因此才会想推荐给大家。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/63A4C2739333EFDD11711E7F9D791BA8.png" alt="vim" />
+<p class="caption">vim</p>
+</div>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/C85D32FC99D632208A9B029AAD6E2FB3.png" alt="tmux" />
+<p class="caption">tmux</p>
+</div>
+<h3 id="复制与粘贴">复制与粘贴</h3>
+<p>这个就是我指的最后的一块拼图。在 v0.6 版本之前，Terminal 的复制粘贴功能一直有很大的问题。在 Github issue 中搜索 “copy / paste” 等关键字就可以知道。开发团队为了兼容微软长期以来的 Ctrl + C 的复制快捷键做了大量的工作。</p>
+<p>v0.6 版本以前，复制多段文字的时候，在别的地方粘贴总是会出现超长的一行，比如<code>a\nb</code>可能会被粘贴成<code>a \space*555 b</code>的情况，十分影响正常的工作，可惜我已经展示不了了。之前总是需要借助 tmux + http 才能绕过这个问题。现在这个恼人的问题终于被修复了，也就是说可以被大家广泛使用了。</p>
+<h3 id="基础的功能">基础的功能</h3>
+<p>Terminal 本身还支持 xterm-256 color ，UTF-8 和 unicode 编码，这些我认为都是必要的功能，这里就不细说了。</p>
+<h2 id="我的使用分享">我的使用分享</h2>
+<p>我最近使用的是微软为开发者打造的一款字体 Cascadia，开源仓库在这里 =&gt; <a href="https://github.com/microsoft/cascadia-code/releases">Cascadia Code</a> . 我很喜欢它，得益于对 unicode 编码的支持，在GPU加速的情况下，它总能给我很多很好看的小惊喜，比如<code>=&gt;</code>会被渲染成一个完整的箭头，并且跟随进度条移动。更多的就等你们使用发掘啦。</p>
+<p>我用的是里面默认的 &quot;One Half Dark&quot; 配色，我觉得很好看，搭配 70% 的透明度和 5 pixel 的外边距，整体效果很不错。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/8480A1CD36C62A350D33E5F09904EDAC.png" alt="configuration" />
+<p class="caption">configuration</p>
+</div>
+<p>最后放上我的配置图，剩下的就大家去尝试一下吧~</p>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[Chrome 在 Windows 找回熟悉的 Alt + Num 切换标签页]]></title>
+    <link>https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2fChrome%e5%9c%a8Windows%e6%89%be%e5%9b%9e%e7%86%9f%e6%82%89%e7%9a%84Alt%2bNum%e5%88%87%e6%8d%a2%e6%a0%87%e7%ad%be%e9%a1%b5</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/p04.%e6%95%88%e7%8e%87%e4%b9%8b%e9%81%93%2fChrome%e5%9c%a8Windows%e6%89%be%e5%9b%9e%e7%86%9f%e6%82%89%e7%9a%84Alt%2bNum%e5%88%87%e6%8d%a2%e6%a0%87%e7%ad%be%e9%a1%b5</guid>
+    <description><![CDATA[<h1 id="chrome-在-windows-找回熟悉的-alt-num-切换标签页">Chrome 在 Windows 找回熟悉的 Alt + Num 切换标签页</h1>
+<p>在不同的系统和软件中，我都喜欢尽可能用同一套快捷键方案去完成相同的功能，以减少自己的学习和记忆成本，最大化效率。但是，哪怕是同一个应用，由于不同平台的默认快捷键不一样，频繁切换平台的迁移学习也很辛苦。</p>
+<p>比如 Chrome 浏览器中，切换标签页的方式在不同的平台上不一样：</p>
+<ul>
+<li>Windows：Ctrl + Num</li>
+<li>Linux：Alt + Num</li>
+<li>Mac：Cmd + Num</li>
+</ul>
+<p>后两者由于键位所处的位置大致相同，所以哪怕没有记忆也不会造成多大的割裂感。但是，Windows 下面的这套快捷键实在是太难受了，本文就是教你如何找回熟悉的感觉。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/FF5B74693EE093B3A0810E93810F336D.png" alt="FF5B74693EE093B3A0810E93810F336D" />
+<p class="caption">FF5B74693EE093B3A0810E93810F336D</p>
+</div>
+<p>这里我们需要借助的软件是 Vimium，相信已经有不少文章介绍过它了。在这里我们需要用到它 Custom key mappings 的功能。Vimium 本身提供很多优秀的内建功能。而我们这里需要用到的是 <code>firstTab</code> 的功能。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/72B87484BA371209846EF02C6B381FE9.png" alt="72B87484BA371209846EF02C6B381FE9" />
+<p class="caption">72B87484BA371209846EF02C6B381FE9</p>
+</div>
+<p>你可能会觉得这个功能并不足够完成 <code>Alt + 2</code>或 <code>Alt + 3</code> 等映射，其实不然，仔细阅读它的开源代码你会发现它本身还提供 option 的功能，简单点来说配置方案是酱紫的。</p>
+<div class="figure">
+<img src="http://wsine.cn-gd.ufileos.com/image/939C6CA558E0E7230390D3763ED98731.png" alt="939C6CA558E0E7230390D3763ED98731" />
+<p class="caption">939C6CA558E0E7230390D3763ED98731</p>
+</div>
+<p>这里我把映射也一并附上。我个人只习惯用前面几个固定的标签页，你可以根据自己习惯增减。</p>
+<pre><code>map &lt;a-1&gt; firstTab
+map &lt;a-2&gt; firstTab count=2
+map &lt;a-3&gt; firstTab count=3
+map &lt;a-4&gt; firstTab count=4</code></pre>
+<p>有了这套方案，我可以很容易的快速回到长期放在第一个标签的 Gmail 页面或者从 Jupyter Notebook 的编程页面中跳出去快速搜索一些东西，而不用借助鼠标，从而提高效率。</p>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[路由器安装Openwrt && 科学上网]]></title>
+    <link>https://wsine.github.io/blog/#/p01.%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%2f%e8%b7%af%e7%94%b1%e5%99%a8%e5%ae%89%e8%a3%85Openwrt%e7%a7%91%e5%ad%a6%e4%b8%8a%e7%bd%91</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/p01.%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%2f%e8%b7%af%e7%94%b1%e5%99%a8%e5%ae%89%e8%a3%85Openwrt%e7%a7%91%e5%ad%a6%e4%b8%8a%e7%bd%91</guid>
+    <description><![CDATA[<h1 id="路由器安装openwrt-科学上网">路由器安装Openwrt &amp;&amp; 科学上网</h1>
+<h2 id="前言">前言</h2>
+<p>对于给路由器刷系统，肯定是有风险的，敢于承担风险的才开始动手。</p>
+<p>Openwrt其实也是一款嵌入式Linux系统，对于闪存大小也是有一定的要求的，建议采用有前人尝试过的路由器。我使用的是和Openwrt比较搭的Netgear WNDR3800路由器，处理器和存储空间都有很大的折腾空间。</p>
+<h2 id="刷机过程">刷机过程</h2>
+<h3 id="路由器降级">路由器降级</h3>
+<p>有时候厂商会禁止用户刷第三方系统，在特定的版本开始添加过滤规则，识别刷机文件是否自家的系统。例如，Netgear在1.0.0.40版本开始禁止刷第三方系统。因此，可以采用降级的方式绕开。</p>
+<p>首先去厂商官网找路由器的低版本固件，下载。在Netgear的官网中找型号是WNDR3800，版本是1.0.0.16的固件，文件名<code>WNDR3800-V1.0.0.16.img</code>。</p>
+<p>连上路由器，进入路由器的管理页面，网址在路由器背面有贴纸说明，一般为192.168.1.1。找到系统-&gt;升级-&gt;从文件升级，点击选择文件找到刚刚下载的<code>WNDR3800-V1.0.0.16.img</code>,点击上传即可。</p>
+<h3 id="刷openwrt固件">刷Openwrt固件</h3>
+<p>在Openwrt的wiki页面中找到自己的设备型号，里面有下载链接，需要英文比较好，多次跳转。例如我找到的下载文件为：</p>
+<ul>
+<li>openwrt-15.05.1-ar71xx-generic-wndr3800-squashfs-sysupgrade.bin</li>
+<li>openwrt-15.05-ar71xx-generic-wndr3800-squashfs-factory.img</li>
+</ul>
+<p>bin文件是给Openwrt系统升级使用的，这里我们不需要使用。从厂商系统刷Openwrt，使用img文件即可。同样，连上路由器，进入路由器的管理页面，网址在路由器背面有贴纸说明，一般为192.168.1.1。找到系统-&gt;升级-&gt;从文件升级，点击选择文件找到刚刚下载的<code>openwrt-15.05-ar71xx-generic-wndr3800-squashfs-factory.img</code>,点击上传即可。</p>
+<p>然后，Openwrt系统就刷好了。管理页面的地址可能会变，不过也是长192.168.x.1的样子，多试一下就好了。</p>
+<p><strong>注意，ar71xx指的是处理器芯片型号。</strong>不是所有的设备都有Openwrt的官方支持，不过一般芯片型号相同也是能刷进去的，后续折腾机器装软件也是需要这个处理器芯片型号的。请自行搜索自己设备的对应型号。</p>
+<h3 id="刷机模式">刷机模式</h3>
+<p>如果厂商禁止刷第三方系统，原厂系统最低版本号也限制没办法降级，则可以使用刷机模式刷系统。和安卓手机的刷机模式类似，按住路由器背面的Reset按钮（需要用东西戳），再打开路由器开关，等待路由器指示灯从不断闪烁变成特定模式的常亮后，即可松手，路由器进入了刷机模式。</p>
+<p>连上路由器，使用路由器刷机软件（没找到官网就不贴链接了），使用相应的img文件，刷入即可。界面小白也能看懂。刷成功后断电重启即可。</p>
+<h2 id="科学上网">科学上网</h2>
+<h3 id="准备工作">准备工作</h3>
+<p>我使用的是Shadowsocks的方式，避免被查水表你不要问我是什么，你没有天线我没办法跟你解释。我就假设你知道了。</p>
+<p>首先准备下面的一些文件：</p>
+<ul>
+<li>shadowsocks-libev-spec_2.1.4-1_ar71xx.ipk</li>
+<li>ChinaDNS_1.3.1-1_ar71xx.ipk</li>
+<li>luci-app-shadowsocks-spec_1.3.0-1_all.ipk</li>
+<li>luci-app-chinadns_1.3.1-1_all.ipk</li>
+<li>accelerated-domains.china.conf</li>
+</ul>
+<p><strong>版本号什么的不重要，处理器芯片型号才重要。</strong>版本号能用就行，不行就多试试几个版本号，一般我都直接下最新版本的，在forget.net（TODO 网址有误）可以搜索下载。</p>
+<p><code>shadowsocks-libev-spec_2.1.4-1_ar71xx.ipk</code>是主程序文件，不解释。 <code>ChinaDNS_1.3.1-1_ar71xx.ipk</code>是解析DNS用的，避免国内网站访问过慢，对国内网站直接访问，对国外网站科学访问。 <code>luci-app-******_all.ipk</code>是给Openwrt的管理页面上增加网页端的配置界面用的，如果你喜欢一直用命令行配置可以不装这个 <code>accelerated-domains.china.conf</code>保存一些需要加速的域名的配置文件</p>
+<h3 id="开始动手">开始动手</h3>
+<p>在终端中将下载的文件上传的路由器中，使用scp大法。（不会的可以用U盘挂载，但这个太low我不教）</p>
+<p><code># scp local_file root@remote_ip:/tmp</code></p>
+<p>local_file指的就是刚刚下载的文件，remote_ip就是登陆管理页面的地址，统一上传的<code>/tmp</code>目录中即可，哪怕忘记它会自己帮你删除的。</p>
+<p>然后，ssh连接登陆路由器，并将这些包安装到路由器中，先装程序主体，再装luci开头的文件。</p>
+<pre><code># ssh root@remote_ip
+# cd /tmp
+# opkg install ******.ipk</code></pre>
+<p>装完回到路由器管理页面，找到服务（Service）就好了，剩下的图形化界面看着把内容填一下就好了。当然还有透明代理UDP转发DNS动态更新PAC模式匹配一大堆乱七八糟的你没有天线我没办法跟你解释。嗯，科学上网这里很水，免得查水表，逃了。。。</p>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[Jsp实现form的file和text传递(multipart/form-data)]]></title>
+    <link>https://wsine.github.io/blog/#/b15.%e7%a7%bb%e5%8a%a8Web%e7%bd%91%e9%a1%b5%e5%bc%80%e5%8f%91%2fJsp%e5%ae%9e%e7%8e%b0form%e7%9a%84file%e5%92%8ctext%e4%bc%a0%e9%80%92multipart_form%2ddata</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/b15.%e7%a7%bb%e5%8a%a8Web%e7%bd%91%e9%a1%b5%e5%bc%80%e5%8f%91%2fJsp%e5%ae%9e%e7%8e%b0form%e7%9a%84file%e5%92%8ctext%e4%bc%a0%e9%80%92multipart_form%2ddata</guid>
+    <description><![CDATA[<h1 id="jsp实现form的file和text传递multipartform-data">Jsp实现form的file和text传递(multipart/form-data)</h1>
+<p>首先是form部分，因为要有<code>&lt;input type=&quot;file&quot; /&gt;</code>的类型，所以需要添加<code>enctype=&quot;multipart/form-data&quot;</code>这一参数，实现大文件传递</p>
+<h4 id="表单部分">表单部分</h4>
+<pre><code>&lt;form action=&quot;addHomework.jsp&quot; method=&quot;post&quot; enctype = &quot;multipart/form-data&quot;&gt;
+    课程号： &lt;input type=&quot;text&quot; name=&quot;course_id&quot; value=&quot;&lt;%=course_id%&gt;&quot; /&gt;&lt;br /&gt;&lt;br /&gt;
+    作业号： &lt;input type=&quot;text&quot; name=&quot;homework_id&quot; value=&quot;&lt;%=homework_id%&gt;&quot; /&gt;&lt;br /&gt;&lt;br /&gt;
+    作业标题： &lt;input type=&quot;text&quot; name=&quot;homework_title&quot;
+        value=&quot;&lt;%=homework_title%&gt;&quot; /&gt;&lt;br /&gt;&lt;br /&gt; 
+    作业描述： &lt;input type=&quot;text&quot;
+        name=&quot;homework_description&quot; value=&quot;&lt;%=homework_description%&gt;&quot; /&gt;&lt;br /&gt;&lt;br /&gt;
+    附件： &lt;input type=&quot;file&quot; name=&quot;detail_attach_file&quot;
+        value=&quot;&lt;%=detail_attach_file%&gt;&quot; /&gt;&lt;br /&gt;&lt;br /&gt;
+    DDL： &lt;input
+        type=&quot;date&quot; name=&quot;ddl&quot; value=&quot;&lt;%=ddl%&gt;&quot;/&gt;&lt;br /&gt;&lt;br /&gt; 
+    &lt;input type=&quot;submit&quot;
+        value=&quot;发布&quot; name=&quot;postHomework&quot;&gt;&lt;br /&gt;&lt;br /&gt;
+    &lt;%=hintToUser%&gt;
+&lt;/form&gt;</code></pre>
+<h4 id="java部分">Java部分</h4>
+<pre><code>&lt;%@ page import=&quot;java.util.*&quot; %&gt;
+&lt;%@ page import=&quot;java.util.Date&quot; %&gt;
+&lt;%@ page import=&quot;java.text.SimpleDateFormat&quot; %&gt;
+&lt;%@ include file=&quot;MySQLHelper.jsp&quot;%&gt;
+&lt;%@ page import=&quot;org.apache.commons.fileupload.FileItem&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.commons.fileupload.disk.DiskFileItemFactory&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.commons.fileupload.FileUploadException&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.commons.fileupload.servlet.ServletFileUpload&quot; %&gt;
+
+&lt;%
+    String method = request.getMethod();
+    String course_id = &quot;&quot;;
+    String homework_id = &quot;&quot;;
+    String homework_title = &quot;&quot;;
+    String homework_description = &quot;&quot;;
+    String detail_attach_file = &quot;&quot;;
+    String post_date = &quot;&quot;;
+    String ddl = &quot;&quot;;
+    String hintToUser = &quot;&quot;;
+    if (method.equals(&quot;POST&quot;)) {
+        DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+        ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
+        try {
+            List list = servletFileUpload.parseRequest(request);
+            Iterator iterator = list.iterator();
+            while (iterator.hasNext()) {
+                FileItem item = (FileItem)iterator.next();
+                if (item.isFormField()) { // judge if it is not the file field
+                    String name = item.getFieldName(); // get the form&#39;s child name
+                    if (name.equals(&quot;course_id&quot;)) 
+                        course_id = item.getString(&quot;utf-8&quot;);
+                    else if (name.equals(&quot;homework_id&quot;)) 
+                        homework_id = item.getString(&quot;utf-8&quot;);
+                    else if (name.equals(&quot;homework_title&quot;))
+                        homework_title = item.getString(&quot;utf-8&quot;);
+                    else if (name.equals(&quot;homework_description&quot;))
+                        homework_description = item.getString(&quot;utf-8&quot;);
+                    else if (name.equals(&quot;ddl&quot;))
+                        ddl = item.getString(&quot;utf-8&quot;);
+                } else { // else it is the file field
+                    String fName = item.getName();  // get the file name
+                    int i = fName.lastIndexOf(&quot;\\&quot;);// fix the bug in ie
+                    fName = fName.substring(i + 1, fName.length());
+                    String filepath = request.getRealPath(&quot;/&quot;) + &quot;detail_attach&quot;;
+                    File path = new File(filepath);
+                    if (!path.isDirectory()) {
+                        path.mkdir();
+                    }
+                    detail_attach_file = path + &quot;/&quot; + fName;
+                    try {
+                        if (fName != &quot;&quot;) {
+                            item.write(new File(detail_attach_file));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // do whatever you want below
+        SimpleDateFormat df = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        post_date = df.format(new Date());
+        MySQLHelper.HomeworkPost homeworkPost = new MySQLHelper.HomeworkPost(course_id, homework_id,
+                homework_title, homework_description, detail_attach_file, post_date, ddl);
+        if(MySQLHelper.addHomework(homeworkPost)) {
+            hintToUser = &quot;成功发布作业&quot;;
+        }
+    }
+%&gt;</code></pre>
+<p>至此，完毕</p>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[HTML/CSS的学习过程一览]]></title>
+    <link>https://wsine.github.io/blog/#/b15.%e7%a7%bb%e5%8a%a8Web%e7%bd%91%e9%a1%b5%e5%bc%80%e5%8f%91%2fHTML%2bCSS%e7%9a%84%e5%ad%a6%e4%b9%a0%e8%bf%87%e7%a8%8b%e4%b8%80%e8%a7%88</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/b15.%e7%a7%bb%e5%8a%a8Web%e7%bd%91%e9%a1%b5%e5%bc%80%e5%8f%91%2fHTML%2bCSS%e7%9a%84%e5%ad%a6%e4%b9%a0%e8%bf%87%e7%a8%8b%e4%b8%80%e8%a7%88</guid>
+    <description><![CDATA[<h1 id="htmlcss的学习过程一览">HTML/CSS的学习过程一览</h1>
+<p><strong>说明</strong> 1. 调试工具使用的是Google Chrome浏览器，其余浏览器出现的问题，这锅我不背<em>【傲娇脸</em> 2. 可以使用浏览器查看源代码</p>
+<h2 id="网页列表">网页列表</h2>
+<ul>
+<li>HTML_CSS_1
+<ul>
+<li>HTML基本元素使用
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_1/Step4.html">Step4.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_2
+<ul>
+<li>框架
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_2/frame.html">frame.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_2/iframe.html">iframe.html</a></li>
+</ul></li>
+<li>输入元素
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_2/blog2.html">blog2.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_3
+<ul>
+<li>CSS选择器的使用一
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_3/song1.html">song1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_3/song2.html">song2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_3/song3.html">song3.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_3/song4.html">song4.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_4
+<ul>
+<li>CSS选择器的使用二
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/sohu.html">sohu.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/register.html">register.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/sohu1.html">sohu1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/ZhuZiQing.html">ZhuZiQing.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/LotusPond.html">LotusPond.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/calendar.html">calendar.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_4/chess.html">chess.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_5
+<ul>
+<li>文本格式化和盒模型一
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_5/colorRGB.html">colorRGB.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_5/colorHSL.html">colorHSL.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_5/font.html">font.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_5/paragraph.html">paragraph.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_5/white-space.html">white-space.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/box.html">box.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_6
+<ul>
+<li>文本格式化和盒模型二
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/display.html">display.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/display1.html">display1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/display2.html">display2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/hide1.html">hide1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/hide2.html">hide2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/background.html">background.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/background1.html">background1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/background2.html">background2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/box.html">box.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/overflow.html">overflow.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/position1.html">position1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/position2.html">position2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_6/relative.html">relative.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_7
+<ul>
+<li>布局设计
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_7/layout1.html">layout1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_7/layout2.html">layout2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_7/display.html">layout3.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_7/gushici.html">gushici.html</a></li>
+</ul></li>
+</ul></li>
+<li>HTML_CSS_8
+<ul>
+<li>通用的布局设计
+<ul>
+<li>css
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/css/header.css">header.css</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_7/nav.css">nav.css</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_7/subnav.css">subnav.css</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/css/main.css">main.css</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/css/body.css">body.css</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/css/footer.css">footer.css</a></li>
+</ul></li>
+<li>js
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/custom.js">custom.js</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/display.js">display.js</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/ga.js">ga.js</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/info.js">info.js</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/jquery.js">jquery.js</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/jquery_002.js">jquery_002.js</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/js/main.js">main.js</a></li>
+</ul></li>
+<li>html
+<ul>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu0.html">sysu0.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu1.html">sysu1.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu2.html">sysu2.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu3.html">sysu3.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu4.html">sysu4.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu5.html">sysu5.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu6.html">sysu6.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu7.html">sysu7.html</a></li>
+<li><a href="http://mywsine.sinaapp.com/HTML_CSS_LEARNING/HTML_CSS_8/sysu8.html">sysu8.html</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="后记">后记</h2>
+<p>吐槽模式：这里其实就是八周的作业，眼明的你会发现代码量在进行不定量的提升当中，第一周上课发现这门课好水，内心都快乐坏了，想着选到了一门好课，第二周发现咦，好像还能接受.....................................第八周发现，卧槽（这不是脏话），这都是些什么鬼（╯－＿－）╯╧╧</p>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[Labview实现单边带信号调制（SSB）[移相法]]]></title>
+    <link>https://wsine.github.io/blog/#/b09.%e9%80%9a%e4%bf%a1%e5%8e%9f%e7%90%86%2fLabview%e5%ae%9e%e7%8e%b0%e5%8d%95%e8%be%b9%e5%b8%a6%e4%bf%a1%e5%8f%b7%e8%b0%83%e5%88%b6SSB_%e7%a7%bb%e7%9b%b8%e6%b3%95</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/b09.%e9%80%9a%e4%bf%a1%e5%8e%9f%e7%90%86%2fLabview%e5%ae%9e%e7%8e%b0%e5%8d%95%e8%be%b9%e5%b8%a6%e4%bf%a1%e5%8f%b7%e8%b0%83%e5%88%b6SSB_%e7%a7%bb%e7%9b%b8%e6%b3%95</guid>
+    <description><![CDATA[<h1 id="labview实现单边带信号调制ssb移相法">Labview实现单边带信号调制（SSB）[移相法]</h1>
+<p>时域上的表达式为</p>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image52.png" alt="1" />
+<p class="caption">1</p>
+</div>
+<p>调制器模型为</p>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image53.png" alt="2" />
+<p class="caption">2</p>
+</div>
+<p>这个实验中需要相位偏移比较多，因为一共用了四个信号仿真器，一个是无偏移的调制信号，一个是偏移的调制信号，一个是无偏移的载波信号，一个是偏移的载波信号。然后根据调制器模型进行相应的操作。 最后的输出为载波信号的时域图像，结果信号的单边带调制下边带的频域图像，结果信号的单边带调制的上边带的频域图像。</p>
+<h3 id="实现效果">实现效果</h3>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image54.png" alt="3" />
+<p class="caption">3</p>
+</div>
+<p>载波频率为280的大小，以280为中界的原正弦信号为两个双峰，经过了移相法得到两个单峰。</p>
+<h3 id="后端实现">后端实现</h3>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image55.jpg" alt="4" />
+<p class="caption">4</p>
+</div>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+   
+  <item>
+    <title><![CDATA[Labview实现单边带信号调制（SSB）[滤波法]]]></title>
+    <link>https://wsine.github.io/blog/#/b09.%e9%80%9a%e4%bf%a1%e5%8e%9f%e7%90%86%2fLabview%e5%ae%9e%e7%8e%b0%e5%8d%95%e8%be%b9%e5%b8%a6%e4%bf%a1%e5%8f%b7%e8%b0%83%e5%88%b6SSB_%e6%bb%a4%e6%b3%a2%e6%b3%95</link>
+    <guid isPermaLink="false">https://wsine.github.io/blog/#/b09.%e9%80%9a%e4%bf%a1%e5%8e%9f%e7%90%86%2fLabview%e5%ae%9e%e7%8e%b0%e5%8d%95%e8%be%b9%e5%b8%a6%e4%bf%a1%e5%8f%b7%e8%b0%83%e5%88%b6SSB_%e6%bb%a4%e6%b3%a2%e6%b3%95</guid>
+    <description><![CDATA[<h1 id="labview实现单边带信号调制ssb滤波法">Labview实现单边带信号调制（SSB）[滤波法]</h1>
+<p>首先用信号仿真器得到一个被调制信号m(t)，以及载波信号，该实验选择正弦信号作为载波信号。 根据调制器模型</p>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image49.png" alt="1" />
+<p class="caption">1</p>
+</div>
+<p>得到一个结果信号。 其中，H(w)的选择是低通滤波器，实验中得到的是理想的低通滤波器，阶数为10。 输出结果为载波信号的时域图像、调制信号的频域图像和结果信号的频域图像。</p>
+<h3 id="实现效果">实现效果</h3>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image50.png" alt="2" />
+<p class="caption">2</p>
+</div>
+<p>载波频率对原信号的调制作用使得双峰频率偏移的载波频率大小的位置。经过低通滤波器的作用后，剩下小于截止频率的部分</p>
+<h3 id="后端实现">后端实现</h3>
+<div class="figure">
+<img src="https://wsine.cn-gd.ufileos.com/image/wsine-blog-image51.png" alt="3" />
+<p class="caption">3</p>
+</div>]]></description>
+    <pubDate>Sat, 27 Jun 2020 17:53:55 +0800</pubDate>
+  </item>
+  
+</channel>
+</rss>
+
